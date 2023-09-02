@@ -1,20 +1,23 @@
 #!/bin/sh
 
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+export SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+export SCRIPT_COMMAND=$0
 source $SCRIPT_DIR/config.cfg
 
-cd $ROOT_DIR
+cd $APP_ROOT_DIR
 
-ACTION="$1"
-
-if [ -z $ACTION ]; do
-	echo "Missing action."
-	echo "Run \`$0 <action>\ [action-options]\` where \`<action>\` is one of the following:"
-	for file in $SCRIPT_DIR/actions/*.sh; do
-		echo $file
+if [ ! -f "$SCRIPT_DIR/commands/$1.sh" ]; then
+	echo "Syntax:"
+	echo "	$SCRIPT_COMMAND <command> ..."
+	echo ""
+	echo "Commands:"
+	for file in $SCRIPT_DIR/commands/*.sh; do
+		filename="${file##*/}"
+		echo "	${filename%.*}"
 	done
-
-	echo "For information about what a particular action does pass \`--help\` as action-option."
+	echo ""
+	echo "For information about what a particular command does pass \`--help\` as the last argument."
+	echo "Note that commands can have sub-commands which provide further detail with \`--help\` argument."
 fi
 
-#"$SCRIPT_DIR/actions/$ACTION.sh" ${@:2}
+"$SCRIPT_DIR/commands/$1.sh" ${@:2}
