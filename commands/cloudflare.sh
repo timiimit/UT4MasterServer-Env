@@ -9,7 +9,9 @@ dns_create() {
 		-H "Content-Type: application/json" \
 		--data '{"type":"A","name":"'"$DOMAIN_NAME"'","content":"'"$IP_ADDRESS"'","proxied":true,"ttl":1}')
 
-	if [ "$response" != "true" ]; then
+	success=$(echo $response | jq .success)
+
+	if [ "$success" != "true" ]; then
 		echo "$response"
 		return 1
 	fi
@@ -27,7 +29,9 @@ dns_update() {
 		-H "Content-Type: application/json" \
 		--data '{"type":"A","name":"'"$DOMAIN_NAME"'","content":"'"$IP_ADDRESS"'","proxied":true,"ttl":1}')
 
-	if [ "$response" != "true" ]; then
+	success=$(echo $response | jq .success)
+
+	if [ "$success" != "true" ]; then
 		echo "$response"
 		return 1
 	fi
@@ -41,9 +45,11 @@ dns_get_list() {
 		-H "Authorization: Bearer $CLOUDFLARE_API_KEY" \
 		-H "Content-Type: application/json")
 
+	success=$(echo $response | jq .success)
+
 	echo "$response"
 
-	if [ "$response" != "true" ]; then
+	if [ "$success" != "true" ]; then
 		return 1
 	fi
 
