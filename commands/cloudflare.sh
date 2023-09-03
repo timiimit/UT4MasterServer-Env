@@ -4,10 +4,15 @@ dns_create() {
 	DOMAIN_NAME="$1"
 	IP_ADDRESS="$2"
 
-	curl -X POST "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID/dns_records" \
+	response=$(curl -s -X POST "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID/dns_records" \
 		-H "Authorization: Bearer $CLOUDFLARE_API_KEY" \
 		-H "Content-Type: application/json" \
-		--data '{"type":"A","name":"'"$DOMAIN_NAME"'","content":"'"$IP_ADDRESS"'","proxied":true,"ttl":1}'
+		--data '{"type":"A","name":"'"$DOMAIN_NAME"'","content":"'"$IP_ADDRESS"'","proxied":true,"ttl":1}')
+
+	if [ "$response" != "true" ]; then
+		echo "$response"
+		return 1
+	fi
 
 	return 0
 }
@@ -17,19 +22,30 @@ dns_update() {
 	DOMAIN_NAME="$2"
 	IP_ADDRESS="$3"
 
-	curl -X PUT "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID/dns_records/$DNS_ID" \
+	response=$(curl -s -X PUT "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID/dns_records/$DNS_ID" \
 		-H "Authorization: Bearer $CLOUDFLARE_API_KEY" \
 		-H "Content-Type: application/json" \
-		--data '{"type":"A","name":"'"$DOMAIN_NAME"'","content":"'"$IP_ADDRESS"'","proxied":true,"ttl":1}'
+		--data '{"type":"A","name":"'"$DOMAIN_NAME"'","content":"'"$IP_ADDRESS"'","proxied":true,"ttl":1}')
+
+	if [ "$response" != "true" ]; then
+		echo "$response"
+		return 1
+	fi
 
 	return 0
 }
 
 dns_get_list() {
 
-	curl -X GET "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID/dns_records?type=A" \
+	response=$(curl -s -X GET "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID/dns_records?type=A" \
 		-H "Authorization: Bearer $CLOUDFLARE_API_KEY" \
-		-H "Content-Type: application/json"
+		-H "Content-Type: application/json")
+
+	echo "$response"
+
+	if [ "$response" != "true" ]; then
+		return 1
+	fi
 
 	return 0
 }
