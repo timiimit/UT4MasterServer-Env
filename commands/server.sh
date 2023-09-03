@@ -1,16 +1,16 @@
 
-if [ $1 -eq "start" ]; then
+if [ "$1" == "start" ]; then
 	docker-compose -f docker-compose.yml up -d
-elif [ $1 -eq "stop" ]; then
+elif [ "$1" == "stop" ]; then
 	docker-compose -f docker-compose.yml down
-elif [ $1 -eq "restart" ]; then
+elif [ "$1" == "restart" ]; then
 	docker-compose -f docker-compose.yml down
 	docker-compose -f docker-compose.yml up -d
-elif [ $1 -eq "rebuild" ]; then
+elif [ "$1" == "rebuild" ]; then
 	docker-compose -f docker-compose.yml down
 	docker system prune -af
 	docker-compose -f docker-compose.yml up --build -d
-elif [ $1 -eq "config" ]; then
+elif [ "$1" == "config" ]; then
 
 cat << EOF > UT4MasterServer/appsettings.Production.json
 {
@@ -30,7 +30,7 @@ VITE_BASIC_AUTH="basic MzRhMDJjZjhmNDQxNGUyOWIxNTkyMTg3NmRhMzZmOWE6ZGFhZmJjY2M3M
 VITE_RECAPTCHA_SITE_KEY=$RECAPTCHA_SITE_KEY
 EOF
 
-elif [ "$1" -eq "update" ]; then
+elif [ "$1" == "update" ]; then
 
 	# in case repo is already there, just pull latest code, else clone fresh
 	if [ "$(git remote get-url origin)" == "$UT4MS_REPO_URL" ]; then
