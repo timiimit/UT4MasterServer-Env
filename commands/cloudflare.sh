@@ -63,10 +63,10 @@ if [ "$1" == "dns" ]; then
 		if [ -n "$3" ] && [ "$3" != "--help" ]; then
 			records=$(dns_get_list)
 
-			dns_id=$(echo $records | jq '.result[] | select(.name == "'"$DOMAIN_NAME_WEBSITE"'") | .id')
+			dns_id=$(echo $records | jq -r '.result[] | select(.name == "'"$DOMAIN_NAME_WEBSITE"'") | .id')
 			dns_update "$dns_id" "$DOMAIN_NAME_WEBSITE" "$3"
 
-			dns_id=$(echo $records | jq '.result[] | select(.name == "'"$DOMAIN_NAME_API"'") | .id')
+			dns_id=$(echo $records | jq -r '.result[] | select(.name == "'"$DOMAIN_NAME_API"'") | .id')
 			dns_update "$dns_id" "$DOMAIN_NAME_API" "$3"
 		else
 			echo "Description:"
