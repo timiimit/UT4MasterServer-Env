@@ -7,7 +7,7 @@ set -a # automatically export all variables
 source $SCRIPT_DIR/config.cfg
 set +a
 
-cd $APP_ROOT_DIR
+cd $ROOT_DIR_APP
 
 if [ ! -f "$SCRIPT_DIR/commands/$1.sh" ]; then
 	echo "Syntax:"
