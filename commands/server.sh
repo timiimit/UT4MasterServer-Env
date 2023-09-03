@@ -30,7 +30,7 @@ VITE_BASIC_AUTH="basic MzRhMDJjZjhmNDQxNGUyOWIxNTkyMTg3NmRhMzZmOWE6ZGFhZmJjY2M3M
 VITE_RECAPTCHA_SITE_KEY=$RECAPTCHA_SITE_KEY
 EOF
 
-elif [ $1 -eq "update" ]; then
+elif [ "$1" -eq "update" ]; then
 
 	# in case repo is already there, just pull latest code, else clone fresh
 	if [ "$(git remote get-url origin)" == "$UT4MS_REPO_URL" ]; then
@@ -41,7 +41,7 @@ elif [ $1 -eq "update" ]; then
 	else
 		# make sure that we are cloning into an empty directory
 		if [ -z "$(\ls -A)" ]; then
-			git clone $UT4MS_REPO_URL .
+			git clone "$UT4MS_REPO_URL" .
 		else
 			echo "\`$(pwd)\` is not empty and it doesn't contain the right"
 			echo "repository. Unsure what to do."

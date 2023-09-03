@@ -2,7 +2,7 @@
 
 if [ "$1" == "update" ]; then
 	if [ -z "$2" ]; then
-		git -C $ROOT_DIR_ENV pull
+		git -C "$ROOT_DIR_ENV" pull
 	else
 		echo "Description:"
 		echo "Update \`$SCRIPT_COMMAND\` command."

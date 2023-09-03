@@ -1,8 +1,8 @@
 #!/bin/sh
 
-if [ $1 == "obtain" ]; then
-	certbot -d $DOMAIN_NAME_WEBSITE -d $DOMAIN_NAME_API --email $CERTIFICATE_REGISTRATION_EMAIL --non-interactive --apache --agree-tos
-elif [ $1 == "renew" ]; then
+if [ "$1" == "obtain" ]; then
+	certbot -d "$DOMAIN_NAME_WEBSITE" -d "$DOMAIN_NAME_API" --email "$CERTIFICATE_REGISTRATION_EMAIL" --non-interactive --apache --agree-tos
+elif [ "$1" == "renew" ]; then
 	certbot renew
 else
 	echo "Description:"

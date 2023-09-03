@@ -1,8 +1,8 @@
 #!/bin/sh
 
 dns_create() {
-	DOMAIN_NAME=$1
-	IP_ADDRESS=$2
+	DOMAIN_NAME="$1"
+	IP_ADDRESS="$2"
 
 	curl -X POST "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID/dns_records" \
 		-H "Authorization: Bearer $CLOUDFLARE_API_KEY" \
@@ -13,9 +13,9 @@ dns_create() {
 }
 
 dns_update() {
-	DNS_ID=$1
-	DOMAIN_NAME=$2
-	IP_ADDRESS=$3
+	DNS_ID="$1"
+	DOMAIN_NAME="$2"
+	IP_ADDRESS="$3"
 
 	curl -X PUT "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID/dns_records/$DNS_ID" \
 		-H "Authorization: Bearer $CLOUDFLARE_API_KEY" \
@@ -34,9 +34,9 @@ dns_get_list() {
 	return 0
 }
 
-if [ $1 == "dns" ]; then
-	if [ $2 == "list" ]; then
-		if [ -z $3 ]; then
+if [ "$1" == "dns" ]; then
+	if [ "$2" == "list" ]; then
+		if [ -z "$3" ]; then
 			dns_get_list
 		else
 			echo "Description:"
@@ -45,8 +45,8 @@ if [ $1 == "dns" ]; then
 			echo "Syntax:"
 			echo "	$SCRIPT_COMMAND cloudflare dns list"
 		fi
-	elif [ $2 == "create" ]; then
-		if [ -n $3 ]; then
+	elif [ "$2" == "create" ]; then
+		if [ -n "$3" ]; then
 			dns_create "$DOMAIN_NAME_WEBSITE" "$3"
 			dns_create "$DOMAIN_NAME_API" "$3"
 		else
@@ -59,15 +59,15 @@ if [ $1 == "dns" ]; then
 			echo "Arguments:"
 			echo "	ip-address	IP Address to make new records point to."
 		fi
-	elif [ $2 == "set" ]; then
-		if [ -n $3 ]; then
+	elif [ "$2" == "set" ]; then
+		if [ -n "$3" ]; then
 			records=$(dns_get_list)
 
-			dns_id=$(echo $records | jq '.result[] | select(.name == "'$DOMAIN_NAME_WEBSITE'") | .id')
-			dns_update $dns_id $DOMAIN_NAME_WEBSITE $3
+			dns_id=$(echo $records | jq '.result[] | select(.name == "'"$DOMAIN_NAME_WEBSITE"'") | .id')
+			dns_update "$dns_id" "$DOMAIN_NAME_WEBSITE" "$3"
 
-			dns_id=$(echo $records | jq '.result[] | select(.name == "'$DOMAIN_NAME_API'") | .id')
-			dns_update $dns_id $DOMAIN_NAME_API $3
+			dns_id=$(echo $records | jq '.result[] | select(.name == "'"$DOMAIN_NAME_API"'") | .id')
+			dns_update "$dns_id" "$DOMAIN_NAME_API" "$3"
 		else
 			echo "Description:"
 			echo "Query the list of all A records for the right domains to obtain their id."
@@ -105,5 +105,5 @@ else
 	echo "	$SCRIPT_COMMAND cloudflare <command> ..."
 	echo ""
 	echo "Commands:"
-	echo "	dns
+	echo "	dns"
 fi
