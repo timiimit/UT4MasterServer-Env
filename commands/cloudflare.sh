@@ -46,7 +46,7 @@ if [ "$1" == "dns" ]; then
 			echo "	$SCRIPT_COMMAND cloudflare dns list"
 		fi
 	elif [ "$2" == "create" ]; then
-		if [ -n "$3" ]; then
+		if [ -n "$3" ] && [ "$3" != "--help" ]; then
 			dns_create "$DOMAIN_NAME_WEBSITE" "$3"
 			dns_create "$DOMAIN_NAME_API" "$3"
 		else
