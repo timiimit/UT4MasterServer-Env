@@ -2,7 +2,10 @@
 
 export SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 export SCRIPT_COMMAND=$0
+
+set -a # automatically export all variables
 source $SCRIPT_DIR/config.cfg
+set +a
 
 cd $APP_ROOT_DIR
 
