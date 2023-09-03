@@ -21,6 +21,7 @@ if [ ! -f "$SCRIPT_DIR/commands/$1.sh" ]; then
 	echo ""
 	echo "For information about what a particular command does pass \`--help\` as the last argument."
 	echo "Note that commands can have sub-commands which provide further detail with \`--help\` argument."
+	exit
 fi
 
 "$SCRIPT_DIR/commands/$1.sh" ${@:2}
