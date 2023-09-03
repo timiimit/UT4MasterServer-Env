@@ -33,7 +33,7 @@ EOF
 elif [ "$1" == "update" ]; then
 
 	# in case repo is already there, just pull latest code, else clone fresh
-	if [ "$(git remote get-url origin)" == "$UT4MS_REPO_URL" ]; then
+	if [ "$(git remote get-url origin 2>/dev/null)" == "$UT4MS_REPO_URL" ]; then
 		git fetch
 		# TODO: switch to `production` branch
 		git checkout master
