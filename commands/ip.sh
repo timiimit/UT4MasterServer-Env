@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ -z "$1" ]; do
+if [ -z "$1" ]; then
 	curl -s https://api/ipify.org
 else
 	echo "Description:"
