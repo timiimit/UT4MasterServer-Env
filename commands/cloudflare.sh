@@ -60,7 +60,7 @@ if [ "$1" == "dns" ]; then
 			echo "	ip-address	IP Address to make new records point to."
 		fi
 	elif [ "$2" == "set" ]; then
-		if [ -n "$3" ]; then
+		if [ -n "$3" ] && [ "$3" != "--help" ]; then
 			records=$(dns_get_list)
 
 			dns_id=$(echo $records | jq '.result[] | select(.name == "'"$DOMAIN_NAME_WEBSITE"'") | .id')
