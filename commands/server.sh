@@ -18,8 +18,8 @@ cat << EOF > UT4MasterServer/appsettings.Production.json
 		"WebsiteDomain": "$DOMAIN_NAME_WEBSITE"
 	},
 	"ReCaptchaSettings": {
-		"SiteKey": "$RECAPTCHA_CLIENT_ID",
-		"SecretKey": "$RECAPTCHA_CLIENT_SECRET"
+		"SiteKey": "$RECAPTCHA_SITE_KEY",
+		"SecretKey": "$RECAPTCHA_SECRET_KEY"
 	}
 }
 EOF
@@ -27,7 +27,7 @@ EOF
 cat << EOF > UT4MasterServer.Web/.env.production
 VITE_API_URL=https://$DOMAIN_NAME_API
 VITE_BASIC_AUTH="basic MzRhMDJjZjhmNDQxNGUyOWIxNTkyMTg3NmRhMzZmOWE6ZGFhZmJjY2M3Mzc3NDUwMzlkZmZlNTNkOTRmYzc2Y2Y="
-VITE_RECAPTCHA_SITE_KEY=$RECAPTCHA_CLIENT_ID
+VITE_RECAPTCHA_SITE_KEY=$RECAPTCHA_SITE_KEY
 EOF
 
 elif [ $1 -eq "update" ]; then
