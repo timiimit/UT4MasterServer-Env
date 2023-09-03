@@ -1,0 +1,5 @@
+[Unit]
+Description=Reconfigure cloudflare DNS records to point to this machine.
+
+[Service]
+ExecStart=ut4ms cloudflare dns update $(ut4ms ip)

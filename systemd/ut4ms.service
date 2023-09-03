@@ -1,0 +1,14 @@
+[Unit]
+Description=UT4MasterServer service
+Requires=docker.service
+After=docker.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+EnvironmentFile=/opt/ut4ms/config.cfg
+ExecStart=/bin/bash -c "docker-compose -f $ROOT_DIR_APP/docker-compose.yml up --detach"
+ExecStop=/bin/bash -c "docker-compose -f $ROOT_DIR_APP/docker-compose.yml down"
+
+[Install]
+WantedBy=multi-user.target

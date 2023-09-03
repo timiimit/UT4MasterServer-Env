@@ -1,0 +1,5 @@
+[Unit]
+Description=Try to update and rebuild UT4MasterServer
+
+[Service]
+ExecStart=ut4ms server update && systemctl restart ut4ms

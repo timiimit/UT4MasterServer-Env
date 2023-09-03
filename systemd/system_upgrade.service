@@ -1,0 +1,5 @@
+[Unit]
+Description=Upgrade all packages on the system and reboot.
+
+[Service]
+ExecStart=dnf -q -y upgrade && update-certbot && update-docker-compose && reboot

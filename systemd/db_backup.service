@@ -1,0 +1,5 @@
+[Unit]
+Description=Make a backup for database of UT4MasterServer. If this is ran multiple times a day, it will overwrite any backup made the same day.
+
+[Service]
+ExecStart=ut4ms db dump /app/db_dumps/$(date --rfc-3339=date).gz
