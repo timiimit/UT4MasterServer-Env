@@ -1,8 +1,13 @@
 #!/bin/sh
 
 export SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-if [ -z $SCRIPT_COMMAND ]; then
+if [ -z "$SCRIPT_COMMAND" ]; then
 	export SCRIPT_COMMAND="$0"
+
+	if [ "$1" != "self" ]; then
+		echo "Please use \`$SCRIPT_COMMAND self install\` before using this command."
+		exit
+	fi
 fi
 
 set -a # automatically export all variables
@@ -23,6 +28,7 @@ if [ ! -f "$SCRIPT_DIR/commands/$1.sh" ]; then
 	echo ""
 	echo "For information about what a particular command does pass \`--help\` as the last argument."
 	echo "Note that commands can have sub-commands which provide further detail with \`--help\` argument."
+	echo ""
 	exit
 fi
 
