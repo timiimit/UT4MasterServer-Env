@@ -1,7 +1,9 @@
 #!/bin/sh
 
 export SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-export SCRIPT_COMMAND=$0
+if [ -z $SCRIPT_COMMAND ]; then
+	export SCRIPT_COMMAND="$0"
+fi
 
 set -a # automatically export all variables
 source $SCRIPT_DIR/config.cfg
