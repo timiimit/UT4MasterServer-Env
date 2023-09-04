@@ -9,7 +9,7 @@ if [ "$1" == "update" ]; then
 		# navigate into env repo for easier operation
 		cd "$ROOT_DIR_ENV"
 
-		# capture output while also displaying it to console
+		# capture output of fetching while also displaying it to console
 		exec 5>&1
 		fetch_output="$(git fetch | tee /dev/fd/5)"
 		exec 5<&-
@@ -19,15 +19,26 @@ if [ "$1" == "update" ]; then
 			exit
 		fi
 
+		# uninstall because new version might install in a different way
 		"./ut4ms.sh" self uninstall
+
+		# stash `config.cfg` as it is set-up to contain production environment variables
 		git stash push config.cfg 1>/dev/null
+
+		# forcefully checkout HEAD of the branch (this will discard any local changes)
 		git checkout -f HEAD 1>/dev/null
+
+		# pull all fetched changes
 		git pull
+
+		# unstash previously stashed config.cfg
 		git stash pop 1>/dev/null
+
+		# install newly downloaded version
 		"./ut4ms.sh" self install
 	else
 		echo "Description:"
-		echo "Update \`$SCRIPT_COMMAND\` command."
+		echo "Update global \`ut4ms\` command and services."
 		echo ""
 		echo "Syntax:"
 		echo "	$SCRIPT_COMMAND self update"
@@ -73,10 +84,10 @@ elif [ "$1" == "uninstall" ]; then
 		rm "$command_location"
 	else
 		echo "Description:"
-		echo "Uninstall \`$SCRIPT_COMMAND\` command."
+		echo "Uninstall global \`ut4ms\` command and services."
 		echo ""
 		echo "Syntax:"
-		echo "	$SCRIPT_COMMAND self update"
+		echo "	$SCRIPT_COMMAND self uninstall"
 	fi
 
 else
