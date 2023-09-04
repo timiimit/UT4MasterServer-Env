@@ -6,7 +6,9 @@ systemd_dir="/etc/systemd/system"
 if [ "$1" == "update" ]; then
 	if [ -z "$2" ]; then
 		"$ROOT_DIR_ENV/ut4ms.sh" self uninstall
+		git -C "$ROOT_DIR_ENV" stash push config.cfg
 		git -C "$ROOT_DIR_ENV" pull
+		git -C "$ROOT_DIR_ENV" stash pop
 		"$ROOT_DIR_ENV/ut4ms.sh" self install
 	else
 		echo "Description:"
