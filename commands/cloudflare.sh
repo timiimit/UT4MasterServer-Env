@@ -67,33 +67,32 @@ if [ "$1" == "dns" ]; then
 			echo "Syntax:"
 			echo "	$SCRIPT_COMMAND cloudflare dns list"
 		fi
-	elif [ "$2" == "create" ]; then
-		if [ -n "$3" ] && [ "$3" != "--help" ]; then
-			dns_create "$DOMAIN_NAME_WEBSITE" "$3"
-			dns_create "$DOMAIN_NAME_API" "$3"
-		else
-			echo "Description:"
-			echo "Try to create new A records in the zone specified by the configuration file."
-			echo ""
-			echo "Syntax:"
-			echo "	$SCRIPT_COMMAND cloudflare dns create <ip-address>"
-			echo ""
-			echo "Arguments:"
-			echo "	ip-address	IP Address to make new records point to."
-		fi
 	elif [ "$2" == "set" ]; then
 		if [ -n "$3" ] && [ "$3" != "--help" ]; then
 			records=$(dns_get_list)
 
+			if [ "$?" -ne "0" ]; then
+				echo "Failed to retrieve list of DNS records."
+				exit 1
+			fi
+
 			dns_id=$(echo $records | jq -r '.result[] | select(.name == "'"$DOMAIN_NAME_WEBSITE"'") | .id')
-			dns_update "$dns_id" "$DOMAIN_NAME_WEBSITE" "$3"
+			if [ -z "$dns_id" ]; then
+				dns_create "$DOMAIN_NAME_WEBSITE" "$3"
+			else
+				dns_update "$dns_id" "$DOMAIN_NAME_WEBSITE" "$3"
+			fi
 
 			dns_id=$(echo $records | jq -r '.result[] | select(.name == "'"$DOMAIN_NAME_API"'") | .id')
-			dns_update "$dns_id" "$DOMAIN_NAME_API" "$3"
+			if [ -z "$dns_id" ]; then
+				dns_create "$DOMAIN_NAME_WEBSITE" "$3"
+			else
+				dns_update "$dns_id" "$DOMAIN_NAME_WEBSITE" "$3"
+			fi
 		else
 			echo "Description:"
 			echo "Query the list of all A records for the right domains to obtain their id."
-			echo "Then try to change their IP Address."
+			echo "Then try to create or update their IP Address based on whether they exist."
 			echo ""
 			echo "Syntax:"
 			echo "	$SCRIPT_COMMAND cloudflare dns set <ip-address>"
@@ -115,7 +114,6 @@ if [ "$1" == "dns" ]; then
 		echo ""
 		echo "Commands:"
 		echo "	list"
-		echo "	create"
 		echo "	set"
 	fi
 else
