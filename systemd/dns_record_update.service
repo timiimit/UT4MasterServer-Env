@@ -1,5 +1,10 @@
 [Unit]
 Description=Reconfigure cloudflare DNS records to point to this machine.
+Wants=network-online.target
+After=network-online.target nss-lookup.target
 
 [Service]
 ExecStart=ut4ms cloudflare dns update $(ut4ms ip)
+
+[Install]
+WantedBy=multi-user.target
