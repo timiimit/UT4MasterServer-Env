@@ -26,10 +26,13 @@ EOF
 		chmod 755 "$command_location"
 
 		# install systemd unit files
-		for systemd_file in "$ROOT_DIR_ENV/systemd/*"; do
+		for systemd_file in $ROOT_DIR_ENV/systemd/*; do
 			systemd_filename="${systemd_file##*/}"
 			ln -s "$systemd_file" "$systemd_dir/$systemd_filename"
 		done
+
+		# ensure that systemd sees the changes
+		systemctl daemon-reload
 	else
 		echo "Description:"
 		echo "Install global \`ut4ms\` command and services."
@@ -41,10 +44,13 @@ elif [ "$1" == "uninstall" ]; then
 	if [ -z "$2" ]; then
 
 		# uninstall systemd unit files
-		for systemd_file in "$ROOT_DIR_ENV/systemd/*"; do
+		for systemd_file in $ROOT_DIR_ENV/systemd/*; do
 			systemd_filename="${systemd_file##*/}"
 			rm "$systemd_dir/$systemd_filename"
 		done
+
+		# ensure that systemd sees the changes
+		systemctl daemon-reload
 
 		# uninstall global ut4ms command
 		rm "$command_location"
