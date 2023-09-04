@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ensure_mongo_only() {
-	docker-compose -f docker-compose.yml down
+	systemctl stop ut4ms
 	docker-compose -f docker-compose.yml up -d mongo
 	return 0
 }
@@ -21,7 +21,7 @@ if [ "$1" == "dump" ]; then
 
 		remove_tmp_file
 
-		docker-compose -f docker-compose.yml up -d
+		systemctl start ut4ms
 	else
 		echo "Description:"
 		echo "Make a reliable database dump into specified file."
