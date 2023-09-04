@@ -5,9 +5,9 @@ systemd_dir="/etc/systemd/system"
 
 if [ "$1" == "update" ]; then
 	if [ -z "$2" ]; then
-		"$REPO_DIR_ENV/ut4ms.sh" self uninstall
+		"$ROOT_DIR_ENV/ut4ms.sh" self uninstall
 		git -C "$ROOT_DIR_ENV" pull
-		"$REPO_DIR_ENV/ut4ms.sh" self install
+		"$ROOT_DIR_ENV/ut4ms.sh" self install
 	else
 		echo "Description:"
 		echo "Update \`$SCRIPT_COMMAND\` command."
