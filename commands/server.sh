@@ -1,16 +1,21 @@
 
 if [ "$1" == "start" ]; then
+	if [ -z "$IS_SERVICE" ]; then
+		echo "Do not run this command manually. Please use \`systemctl start ut4ms\` instead."
+		exit
+	fi
 	docker-compose -f docker-compose.yml up -d
 elif [ "$1" == "stop" ]; then
+	if [ -z "$IS_SERVICE" ]; then
+		echo "Do not run this command manually. Please use \`systemctl stop ut4ms\` instead."
+		exit
+	fi
 	docker-compose -f docker-compose.yml down
-elif [ "$1" == "restart" ]; then
-	docker-compose -f docker-compose.yml down
-	docker-compose -f docker-compose.yml up -d
-elif [ "$1" == "rebuild" ]; then
-	docker-compose -f docker-compose.yml down
-	docker system prune -af
-	docker-compose -f docker-compose.yml up --build -d
-elif [ "$1" == "config" ]; then
+elif [ "$1" == "reload" ]; then
+	if [ -z "$IS_SERVICE" ]; then
+		echo "Do not run this command manually. Please use \`systemctl reload ut4ms\` instead."
+		exit
+	fi
 
 cat << EOF > UT4MasterServer/appsettings.Production.json
 {
@@ -30,7 +35,16 @@ VITE_BASIC_AUTH="basic MzRhMDJjZjhmNDQxNGUyOWIxNTkyMTg3NmRhMzZmOWE6ZGFhZmJjY2M3M
 VITE_RECAPTCHA_SITE_KEY=$RECAPTCHA_SITE_KEY
 EOF
 
+	docker-compose -f docker-compose.yml down
+	# docker system prune -af
+	docker-compose -f docker-compose.yml up --build -d
+	docker system prune -af
 elif [ "$1" == "update" ]; then
+
+	if [ -z "$IS_SERVICE" ]; then
+		echo "Do not run this command manually. Please use \`systemctl start ut4ms_update\` instead."
+		exit
+	fi
 
 	# in case repo is already there, just pull latest code, else clone fresh
 	if [ "$(git remote get-url origin 2>/dev/null)" == "$REPO_URL_APP" ]; then
@@ -54,20 +68,20 @@ else
 	echo "Description:"
 	echo "Issue a command for UT4MasterServer."
 	echo ""
+	echo "Note:"
+	echo "These commands will not work if executed normally."
+	echo "Generally these commands are meant to be executed as a service."
+	echo "When creating a service, define \`IS_SERVICE\` environment variable."
+	echo ""
 	echo "Syntax:"
 	echo "	server <command>"
 	echo ""
 	echo "Commands:"
 	echo "	start	Start all docker containers that run the server."
 	echo "	stop	Stop all docker containers that run the server."
-	echo "	restart	The same as running start and stop commands one"
-	echo "          after the other."
-	echo "	rebuild	Stop server, rebuild the docker images and then"
+	echo "	reload	Stop server, rebuild the docker images and then"
 	echo "          start the server back up."
-	echo "	config	Configure or reconfigure the server by updating its"
-	echo "          configuration files. Rebuild the server to apply"
-	echo "          the changes."
-	echo "	update	Pull latest UT4MasterServer code. Rebuild is"
+	echo "	update	Pull latest UT4MasterServer code. Reload is"
 	echo "          required to apply new changes."
 	exit
 fi
