@@ -25,7 +25,7 @@ cat >/etc/httpd/conf.d/ut4master-ssl.conf << EOF
 </VirtualHost>
 EOF
 	# ensure that new configuration file is loaded
-	systemctl restart httpd
+	systemctl reload httpd
 elif [ "$1" == "renew" ]; then
 	certbot renew
 else
