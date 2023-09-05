@@ -62,6 +62,8 @@ elif [ "$1" == "update" ]; then
 			exit
 		fi
 	fi
+
+	echo "Server successfully updated. Reload server to apply changes."
 else
 	echo "Description:"
 	echo "Issue a command for UT4MasterServer."
