@@ -12,7 +12,7 @@ remove_tmp_file() {
 }
 
 if [ "$1" == "dump" ]; then
-	if [ -f "$2" ]; then
+	if [ ! -f "$2" ]; then
 		ensure_mongo_only
 
 		# dump database
@@ -45,6 +45,7 @@ elif [ "$1" == "restore" ]; then
 		docker exec -it mongo mongorestore --username=devroot --password=devroot --host=localhost --gzip --drop --archive=/data/dump.gz
 
 		remove_tmp_file
+		#docker-compose -f docker-compose.yml down mongo
 	else
 		echo "Description:"
 		echo "Restore a reliable database dump from specified file."
