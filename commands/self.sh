@@ -9,12 +9,14 @@ if [ "$1" == "update" ]; then
 		# navigate into env repo for easier operation
 		cd "$ROOT_DIR_ENV"
 
-		# capture output of fetching while also displaying it to console
-		exec 5>&1
-		fetch_output="$(git fetch | tee /dev/fd/5)"
-		exec 5<&-
+		# minimal fetch
+		git remote update
 
-		if [ -z "$fetch_output" ]; then
+		# compare local commit id and remote commit id
+		COMMIT_UPSTREAM=$(git rev-parse @{u})
+		COMMIT_LOCAL=$(git rev-parse @)
+
+		if [ "$COMMIT_UPSTREAM" == "$COMMIT_LOCAL" ]; then
 			echo "Already up to date."
 			exit
 		fi
@@ -28,7 +30,7 @@ if [ "$1" == "update" ]; then
 		# forcefully checkout HEAD of the branch (this will discard any local changes)
 		git checkout -f HEAD 1>/dev/null
 
-		# pull all fetched changes
+		# pull all changes
 		git pull
 
 		# unstash previously stashed config.cfg
