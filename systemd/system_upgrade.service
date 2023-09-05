@@ -2,6 +2,7 @@
 Description=Upgrade all packages on the system and reboot
 
 [Service]
+Type=oneshot
 ExecStart=dnf -q -y upgrade
 ExecStart=update-certbot
 ExecStart=update-docker-compose
