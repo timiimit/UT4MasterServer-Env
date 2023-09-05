@@ -17,7 +17,7 @@ if [ "$1" == "dump" ]; then
 
 		# dump database
 		docker exec -it mongo mongodump --username=devroot --password=devroot --host=localhost --gzip --archive=/data/dump.gz
-		docker cp mongo:/data/dump.gz "$3"
+		docker cp mongo:/data/dump.gz "$2"
 
 		remove_tmp_file
 
@@ -41,7 +41,7 @@ elif [ "$1" == "restore" ]; then
 		ensure_mongo_only
 
 		# restore database
-		docker cp "$3" mongo:/data/dump.gz
+		docker cp "$2" mongo:/data/dump.gz
 		docker exec -it mongo mongorestore --username=devroot --password=devroot --host=localhost --gzip --drop --archive=/data/dump.gz
 
 		remove_tmp_file
