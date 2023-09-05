@@ -66,6 +66,11 @@ EOF
 			ln -s "$systemd_file" "$systemd_dir/$systemd_filename"
 		done
 
+		for systemd_timer_file in $ROOT_DIR_ENV/systemd/*.timer; do
+			systemd_timer_filename="${systemd_timer_file##*/}"
+			systemctl --now enable "$systemd_timer_filename"
+		done
+
 		# ensure that systemd sees the changes
 		systemctl daemon-reload
 	else
@@ -77,6 +82,11 @@ EOF
 	fi
 elif [ "$1" == "uninstall" ]; then
 	if [ -z "$2" ]; then
+
+		for systemd_timer_file in $ROOT_DIR_ENV/systemd/*.timer; do
+			systemd_timer_filename="${systemd_timer_file##*/}"
+			systemctl --now disable "$systemd_timer_filename"
+		done
 
 		# uninstall systemd unit files
 		for systemd_file in $ROOT_DIR_ENV/systemd/*; do
