@@ -39,7 +39,7 @@ if [ "$1" == "update" ]; then
 		git pull
 
 		# switch to desired branch
-		if [ "$(git branch --show-current)" != "$REPO_BRANCH_ENV"]; then
+		if [ "$(git branch --show-current)" != "$REPO_BRANCH_ENV" ]; then
 			git checkout -f "$REPO_BRANCH_ENV" 1>/dev/null
 		fi
 
