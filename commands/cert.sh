@@ -3,29 +3,6 @@
 if [ "$1" == "obtain" ]; then
 	# obtain certificates by letting certbot use apache's document root
 	certbot certonly --email "$CERTIFICATE_REGISTRATION_EMAIL" --agree-tos --non-interactive -d "$DOMAIN_NAME_WEBSITE" -d "$DOMAIN_NAME_API" --webroot --webroot-path "/var/www/html"
-
-	# create new configuration for https
-cat >/etc/httpd/conf.d/ut4master-ssl.conf << EOF
-
-<VirtualHost *:443>
-    ServerName "$DOMAIN_NAME_WEBSITE"
-    ProxyPreserveHost On
-    ProxyPass / http://127.0.0.1:5001/
-    ProxyPassReverse / http://127.0.0.1:5001/
-	SSLCertificateFile /etc/letsencrypt/live/$DOMAIN_NAME_WEBSITE/fullchain.pem
-	SSLCertificateKeyFile /etc/letsencrypt/live/$DOMAIN_NAME_WEBSITE/privkey.pem
-</VirtualHost>
-<VirtualHost *:443>
-    ServerName "$DOMAIN_NAME_API"
-    ProxyPreserveHost On
-    ProxyPass / http://127.0.0.1:5000/
-    ProxyPassReverse / http://127.0.0.1:5000/
-	SSLCertificateFile /etc/letsencrypt/live/$DOMAIN_NAME_WEBSITE/fullchain.pem
-	SSLCertificateKeyFile /etc/letsencrypt/live/$DOMAIN_NAME_WEBSITE/privkey.pem
-</VirtualHost>
-EOF
-	# ensure that new configuration file is loaded
-	systemctl reload httpd
 elif [ "$1" == "renew" ]; then
 	certbot renew
 else
