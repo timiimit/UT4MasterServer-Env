@@ -85,9 +85,9 @@ if [ "$1" == "dns" ]; then
 
 			dns_id=$(echo $records | jq -r '.result[] | select(.name == "'"$DOMAIN_NAME_API"'") | .id')
 			if [ -z "$dns_id" ]; then
-				dns_create "$DOMAIN_NAME_WEBSITE" "$3"
+				dns_create "$DOMAIN_NAME_API" "$3"
 			else
-				dns_update "$dns_id" "$DOMAIN_NAME_WEBSITE" "$3"
+				dns_update "$dns_id" "$DOMAIN_NAME_API" "$3"
 			fi
 		else
 			echo "Description:"
