@@ -1,5 +1,13 @@
 [Unit]
-Description=Upgrade all packages on the system and reboot.
+Description=Upgrade all packages on the system and reboot
 
 [Service]
-ExecStart=dnf -q -y upgrade && update-certbot && update-docker-compose && reboot
+Type=oneshot
+Environment=IS_SERVICE=1
+ExecStart=dnf -q -y upgrade
+ExecStart=update-certbot
+ExecStart=update-docker-compose
+ExecStart=systemctl reboot
+
+[Install]
+WantedBy=multi-user.target
