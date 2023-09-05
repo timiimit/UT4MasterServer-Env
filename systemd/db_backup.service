@@ -1,5 +1,11 @@
 [Unit]
 Description=Make a backup for database of UT4MasterServer. If this is ran multiple times a day, it will overwrite any backup made the same day.
+Requires=ut4ms.service
+After=ut4ms.service
 
 [Service]
-ExecStart=ut4ms db dump /app/db_dumps/$(date --rfc-3339=date).gz
+Environment=IS_SERVICE=1
+ExecStart=sh -c 'ut4ms db dump "/app/db_dumps/$(date --rfc-3339=date).gz"'
+
+[Install]
+WantedBy=timers.target

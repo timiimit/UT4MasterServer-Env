@@ -2,4 +2,4 @@
 Description=Clear old outdated logs.
 
 [Service]
-ExecStart=journalctl --vacuum-time=30d && rm /var/log/httpd/*_log-*
+ExecStart=journalctl --vacuum-time=30d
