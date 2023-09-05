@@ -13,6 +13,10 @@ remove_tmp_file() {
 
 if [ "$1" == "dump" ]; then
 	if [ ! -f "$2" ]; then
+		# make output dir if it doesn't exist
+		dir=$(dirname "$2")
+		mkdir -p $dir
+
 		ensure_mongo_only
 
 		# dump database
@@ -60,7 +64,7 @@ elif [ "$1" == "restore" ]; then
 		echo "you can check the validity of restoration before it starts again."
 		echo ""
 		echo "Syntax:"
-		echo "	$SCRIPT_COMMAND db dump <file>"
+		echo "	$SCRIPT_COMMAND db dump <filename>"
 		echo ""
 		exit
 	fi
