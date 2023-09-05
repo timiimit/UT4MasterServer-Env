@@ -1,5 +1,14 @@
 [Unit]
-Description=Try to update and rebuild UT4MasterServer
+Description=Try to update UT4MasterServer
+Wants=ut4ms.service
+Requires=docker.service
+After=docker.service
 
 [Service]
-ExecStart=ut4ms server update && systemctl reload ut4ms
+Type=oneshot
+Environment=IS_SERVICE=1
+ExecStart=ut4ms server update
+ExecStart=systemctl reload ut4ms
+
+[Install]
+WantedBy=multi-user.target
