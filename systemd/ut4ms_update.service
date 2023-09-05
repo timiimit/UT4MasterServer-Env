@@ -8,3 +8,6 @@ After=docker.service
 Type=exec
 Environment=IS_SERVICE=1
 ExecStart=sh -c 'if ut4ms server update; then; systemctl reload ut4ms; else; exit 0; fi;'
+
+[Install]
+WantedBy=multi-user.target
