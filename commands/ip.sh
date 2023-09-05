@@ -7,5 +7,5 @@ else
 	echo "Get public IP Address of this machine"
 	echo ""
 	echo "Syntax:"
-	echo "	ip"
+	echo "	$SCRIPT_COMMAND ip"
 fi
