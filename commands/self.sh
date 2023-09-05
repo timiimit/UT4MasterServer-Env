@@ -55,7 +55,7 @@ elif [ "$1" == "install" ]; then
 		# install global ut4ms command
 cat >"$command_location" << EOF
 #!/bin/bash
-export SCRIPT_COMMAND="\$0"
+export SCRIPT_COMMAND="ut4ms"
 "$ROOT_DIR_ENV/ut4ms.sh" "\$@"
 EOF
 		chmod 755 "$command_location"
