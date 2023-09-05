@@ -2,7 +2,7 @@
 
 ensure_mongo_only() {
 	systemctl stop ut4ms
-	docker-compose -f docker-compose.yml up -d mongo
+	docker-compose -f docker-compose.yml up -d mongo 1>/dev/null
 	return 0
 }
 
