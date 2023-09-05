@@ -26,6 +26,10 @@ if [ "$1" == "dump" ]; then
 		remove_tmp_file
 
 		systemctl start ut4ms
+
+		echo ""
+		echo "db has been dumped to \`""$2""\`."
+		echo "Server is continuting normal operation."
 	else
 		echo "Description:"
 		echo "Make a reliable database dump into specified file."
@@ -50,6 +54,11 @@ elif [ "$1" == "restore" ]; then
 
 		remove_tmp_file
 		#docker-compose -f docker-compose.yml down mongo
+
+		echo ""
+		echo "db has been restored from \`""$2""\`."
+		echo "Server is currently OFF so you can ensure db is in an expected state."
+		echo "When you are ready run \`systemctl start ut4ms\` to start up server."
 	else
 		echo "Description:"
 		echo "Restore a reliable database dump from specified file."
