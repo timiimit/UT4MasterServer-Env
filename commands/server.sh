@@ -24,10 +24,11 @@ elif [ "$1" == "reload" ]; then
 		exit
 	fi
 
-	# docker-compose -f docker-compose.yml down
-	# docker system prune -af
-	docker-compose -f docker-compose.yml up --build -d
-	docker system prune -af
+	# rebuild services with using at most 0.5GB of memory
+	docker-compose -f docker-compose.yml build --no-cache --memory 5248000
+
+	# replace existing services with newly built ones
+	docker-compose -f docker-compose.yml restart
 elif [ "$1" == "update" ]; then
 
 	if [ -z "$IS_SERVICE" ]; then
