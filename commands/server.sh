@@ -4,7 +4,7 @@ if [ "$1" == "start" ]; then
 		echo "Do not run this command manually. Please use \`systemctl start ut4ms\` instead."
 		exit
 	fi
-	docker-compose -f docker-compose.yml up -d
+	docker-compose -f docker-compose.yml up
 elif [ "$1" == "stop" ]; then
 	if [ -z "$IS_SERVICE" ]; then
 		echo "Do not run this command manually. Please use \`systemctl stop ut4ms\` instead."
