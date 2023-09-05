@@ -48,14 +48,12 @@ elif [ "$1" == "update" ]; then
 
 	# in case repo is already there, just pull latest code, else clone fresh
 	if [ "$(git remote get-url origin 2>/dev/null)" == "$REPO_URL_APP" ]; then
-		git fetch
-		# TODO: switch to `production` branch
-		git checkout master
 		git pull
+		git checkout -f "$REPO_BRANCH_APP" 1>/dev/null
 	else
 		# make sure that we are cloning into an empty directory
 		if [ -z "$(\ls -A)" ]; then
-			git clone "$REPO_URL_APP" .
+			git clone -b "$REPO_BRANCH_APP" "$REPO_URL_APP" .
 		else
 			echo "\`$(pwd)\` is not empty and it doesn't contain the right"
 			echo "repository. Unsure what to do."

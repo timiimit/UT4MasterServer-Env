@@ -28,7 +28,7 @@ if [ "$1" == "update" ]; then
 		git stash push config.cfg 1>/dev/null
 
 		# forcefully checkout HEAD of the branch (this will discard any local changes)
-		git checkout -f HEAD 1>/dev/null
+		git checkout -f "$REPO_BRANCH_ENV" 1>/dev/null
 
 		# pull all changes
 		git pull
