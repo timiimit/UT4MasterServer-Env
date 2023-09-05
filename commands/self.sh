@@ -3,6 +3,11 @@
 command_location="/usr/local/bin/ut4ms"
 systemd_dir="/etc/systemd/system"
 
+if [ "$EUID" != "0" ]; then
+	echo "\`$SCRIPT_COMMAND self\` commands must only be run as root."
+	exit
+fi
+
 if [ "$1" == "update" ]; then
 	if [ -z "$2" ]; then
 
