@@ -1,0 +1,10 @@
+[Unit]
+Description=Update system each month on tuesday
+
+[Timer]
+OnCalendar=Tue *-*-1..7 07:00:00 UTC
+RandomizedDelaySec=30min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

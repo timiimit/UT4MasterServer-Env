@@ -1,0 +1,10 @@
+[Unit]
+Description=Dump database each monday
+
+[Timer]
+OnCalendar=Mon *-*-* 07:00:00 UTC
+RandomizedDelaySec=30min
+Persistent=true
+
+[Install]
+WantedBy=timers.target
