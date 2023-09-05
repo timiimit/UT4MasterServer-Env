@@ -4,8 +4,7 @@ Requires=docker.service
 After=docker.service
 
 [Service]
-Type=oneshot
-RemainAfterExit=yes
+Type=exec
 Environment=IS_SERVICE=1
 ExecStart=ut4ms server start
 ExecReload=ut4ms server reload

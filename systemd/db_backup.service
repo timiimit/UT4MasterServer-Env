@@ -1,6 +1,6 @@
 [Unit]
 Description=UT4MasterServer database backup
-Requires=ut4ms.service
+#Wants=ut4ms.service
 After=ut4ms.service
 
 [Service]
