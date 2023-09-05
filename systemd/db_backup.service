@@ -8,4 +8,4 @@ Environment=IS_SERVICE=1
 ExecStart=sh -c 'ut4ms db dump "/app/db_dumps/$(date --rfc-3339=date).gz"'
 
 [Install]
-WantedBy=timers.target
+WantedBy=multi-user.target
