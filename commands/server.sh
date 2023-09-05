@@ -12,6 +12,13 @@ elif [ "$1" == "stop" ]; then
 	fi
 	docker-compose -f docker-compose.yml down
 elif [ "$1" == "reload" ]; then
+
+	available_mem=$(free -m | grep Mem | awk '{print $7}')
+	if [ $available_mem -le 800 ]; then
+		echo "Ignoring reload command. Less than 800MiB of memory is available."
+		exit 1
+	fi
+
 	if [ -z "$IS_SERVICE" ]; then
 		echo "Do not run this command manually. Please use \`systemctl reload ut4ms\` instead."
 		exit
@@ -35,7 +42,7 @@ VITE_BASIC_AUTH="basic MzRhMDJjZjhmNDQxNGUyOWIxNTkyMTg3NmRhMzZmOWE6ZGFhZmJjY2M3M
 VITE_RECAPTCHA_SITE_KEY=$RECAPTCHA_SITE_KEY
 EOF
 
-	docker-compose -f docker-compose.yml down
+	# docker-compose -f docker-compose.yml down
 	# docker system prune -af
 	docker-compose -f docker-compose.yml up --build -d
 	docker system prune -af
