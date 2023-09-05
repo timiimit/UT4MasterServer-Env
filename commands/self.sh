@@ -91,7 +91,29 @@ elif [ "$1" == "uninstall" ]; then
 		echo "Syntax:"
 		echo "	$SCRIPT_COMMAND self uninstall"
 	fi
+elif [ "$1" == "config" ]; then
+	if [ -z "$2" ]; then
 
+		"$SCRIPT_COMMAND" apache config
+		systemctl reload httpd
+
+		"$SCRIPT_COMMAND" server config
+		systemctl reload ut4ms
+
+		"$SCRIPT_COMMAND" cloudflare dns set $("$SCRIPT_COMMAND" ip)
+
+	else
+		echo "Description:"
+		echo "Re/configure most things to reflect an updated \`config.cfg\` file and"
+		echo "apply all changes, by reloading services."
+		echo ""
+		echo "Important Note:"
+		echo "If domains were changed then make sure to manually obtain new certificate"
+		echo "with \`ut4ms cert obtain\` before executing this command."
+		echo ""
+		echo "Syntax:"
+		echo "	$SCRIPT_COMMAND self config"
+	fi
 else
 	echo "Description:"
 	echo "Perform operation which handles the \`$SCRIPT_COMMAND\` command itself."
@@ -103,4 +125,5 @@ else
 	echo "	update"
 	echo "	install"
 	echo "	uninstall"
+	echo "	config"
 fi
