@@ -5,6 +5,6 @@ Requires=docker.service
 After=docker.service
 
 [Service]
+Type=exec
 Environment=IS_SERVICE=1
-ExecStart=ut4ms server update
-ExecStart=systemctl reload ut4ms
+ExecStart=sh -c 'if ut4ms server update; then; systemctl reload ut4ms; else; exit 0; fi;'
