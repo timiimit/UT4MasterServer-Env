@@ -1,5 +1,5 @@
 [Unit]
-Description=UT4MasterServer service
+Description=UT4MasterServer
 Requires=docker.service
 After=docker.service
 

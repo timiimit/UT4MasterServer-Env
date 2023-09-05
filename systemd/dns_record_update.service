@@ -1,5 +1,5 @@
 [Unit]
-Description=Reconfigure cloudflare DNS records to point to this machine.
+Description=cloudflare DNS records reconfiguration
 Wants=network-online.target
 After=network-online.target nss-lookup.target
 

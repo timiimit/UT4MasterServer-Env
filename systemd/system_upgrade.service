@@ -1,5 +1,5 @@
 [Unit]
-Description=Upgrade all packages on the system and reboot
+Description=system upgrade
 
 [Service]
 Type=oneshot

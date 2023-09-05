@@ -1,5 +1,5 @@
 [Unit]
-Description=Make a backup for database of UT4MasterServer. If this is ran multiple times a day, it will overwrite any backup made the same day.
+Description=UT4MasterServer database backup
 Requires=ut4ms.service
 After=ut4ms.service
 

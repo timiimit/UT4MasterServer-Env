@@ -1,5 +1,5 @@
 [Unit]
-Description=Renew all certificates previously obtained with certbot.
+Description=Certificate renewal
 
 [Service]
 ExecStart=ut4ms cert renew

@@ -1,5 +1,5 @@
 [Unit]
-Description=Try to update UT4MasterServer
+Description=UT4MasterServer update
 Wants=ut4ms.service
 Requires=docker.service
 After=docker.service
