@@ -16,8 +16,10 @@ git clone https://github.com/timiimit/UT4MasterServer-Env.git .
 - `ut4ms` command has sub-commands which may in turn have more sub-commands
 - To get a list of all information about a command add `--help` argument
 
-## Jobs
-Cron is meant to be used to run jobs/tasks on a regular basis.
+## Hardcoded directories
+- `/etc/letsencrypt` contains ssl certificate information
+- `/opt/certbot` contains certbot installation
+- `/usr/local/bin` contains manually installed programs
 
 To add, edit or remove jobs execute command `crontab -e` and edit the file. Use [crontab guru](https://crontab.guru/) to determine timings. Here is an example content:
 ```
