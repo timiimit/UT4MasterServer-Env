@@ -60,7 +60,7 @@ elif [ "$1" == "update" ]; then
 
 		if [ "$COMMIT_UPSTREAM" == "$COMMIT_LOCAL" ]; then
 			echo "Already up to date."
-			exit
+			exit 255
 		fi
 
 		# pull all changes
