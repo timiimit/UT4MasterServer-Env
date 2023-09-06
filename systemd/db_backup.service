@@ -1,12 +1,13 @@
 [Unit]
 Description=UT4MasterServer database backup
-Requires=ut4ms.service
 After=ut4ms.service
 
 [Service]
-Type=exec
+Type=oneshot
 Environment=IS_SERVICE=1
+ExecStartPre=systemctl stop ut4ms
 ExecStart=sh -c 'ut4ms db dump "/app/db_dumps/$(date --rfc-3339=date).gz"'
+ExecStopPost=systemctl start ut4ms
 
 [Install]
 WantedBy=multi-user.target
