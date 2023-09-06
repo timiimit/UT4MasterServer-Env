@@ -17,11 +17,12 @@ if [ "$1" == "update" ]; then
 		# minimal fetch
 		git remote update
 
-		# compare local commit id and remote commit id
-		COMMIT_UPSTREAM=$(git rev-parse @{u})
-		COMMIT_LOCAL=$(git rev-parse @)
+		# compare branch name and commit id
+		BRANCH_NAME="$(git branch --show-current)"
+		COMMIT_UPSTREAM="$(git rev-parse @{u})"
+		COMMIT_LOCAL="$(git rev-parse @)"
 
-		if [ "$COMMIT_UPSTREAM" == "$COMMIT_LOCAL" ]; then
+		if [ "$BRANCH_NAME" == "$REPO_BRANCH_ENV" ] && [ "$COMMIT_UPSTREAM" == "$COMMIT_LOCAL" ]; then
 			echo "Already up to date."
 			exit
 		fi
@@ -32,14 +33,14 @@ if [ "$1" == "update" ]; then
 		# stash `config.cfg` as it is set-up to contain production environment variables
 		git stash push config.cfg 1>/dev/null
 
-		# discard any local changes
+		# discard any local changes in working directory
 		git reset --hard HEAD 1>/dev/null
 
 		# pull all changes
 		git pull
 
 		# switch to desired branch
-		if [ "$(git branch --show-current)" != "$REPO_BRANCH_ENV" ]; then
+		if [ "$BRANCH_NAME" != "$REPO_BRANCH_ENV" ]; then
 			git checkout -f "$REPO_BRANCH_ENV" 1>/dev/null
 		fi
 
