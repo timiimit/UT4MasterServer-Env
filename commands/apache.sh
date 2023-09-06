@@ -21,10 +21,10 @@ RemoteIPTrustedProxyList proxy_list.txt
 DocumentRoot "/var/www/html"
 
 # Always redirect domains to https
-RewriteEngine on
-RewriteCond %{SERVER_NAME} =$DOMAIN_NAME_WEBSITE [OR]
-RewriteCond %{SERVER_NAME} =$DOMAIN_NAME_API
-RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
+#RewriteEngine on
+#RewriteCond %{SERVER_NAME} =$DOMAIN_NAME_WEBSITE [OR]
+#RewriteCond %{SERVER_NAME} =$DOMAIN_NAME_API
+#RewriteRule ^ https://%{SERVER_NAME}%{REQUEST_URI} [END,NE,R=permanent]
 EOF
 
 if [ -f "/etc/letsencrypt/live/$DOMAIN_NAME_WEBSITE/fullchain.pem" ]; then
