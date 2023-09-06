@@ -25,12 +25,15 @@ elif [ "$1" == "reload" ]; then
 	fi
 
 	# prune old build cache
+	echo "Pruning old docker cache..."
 	docker system prune -f
 
 	# build containers
+	echo "Building containers..."
 	docker-compose -f docker-compose.yml build --no-cache --memory 5242880
 
 	# start with built containers
+	echo "Recreating containers..."
 	docker-compose -f docker-compose.yml up --no-build --force-recreate --remove-orphans -d
 
 elif [ "$1" == "update" ]; then
