@@ -2,4 +2,5 @@
 Description=Clear old outdated logs.
 
 [Service]
+Type=exec
 ExecStart=journalctl --vacuum-time=30d

@@ -2,4 +2,5 @@
 Description=Certificate renewal
 
 [Service]
+Type=exec
 ExecStart=ut4ms cert renew
