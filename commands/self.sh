@@ -17,6 +17,11 @@ if [ "$1" == "update" ]; then
 		# minimal fetch
 		git remote update
 
+		# switch to desired branch
+		if [ "$(git branch --show-current)" != "$REPO_BRANCH_ENV" ]; then
+			git checkout -f "$REPO_BRANCH_ENV" 1>/dev/null
+		fi
+
 		# compare local commit id and remote commit id
 		COMMIT_UPSTREAM=$(git rev-parse @{u})
 		COMMIT_LOCAL=$(git rev-parse @)
@@ -37,11 +42,6 @@ if [ "$1" == "update" ]; then
 
 		# pull all changes
 		git pull
-
-		# switch to desired branch
-		if [ "$(git branch --show-current)" != "$REPO_BRANCH_ENV" ]; then
-			git checkout -f "$REPO_BRANCH_ENV" 1>/dev/null
-		fi
 
 		# unstash previously stashed config.cfg
 		git stash pop 1>/dev/null
