@@ -48,7 +48,7 @@ elif [ "$1" == "update" ]; then
 		# compare branch name and commit id
 		BRANCH_NAME="$(git branch --show-current)"
 
-		if [ "$BRANCH_NAME" != "$REPO_BRANCH_APP"]; then
+		if [ "$BRANCH_NAME" != "$REPO_BRANCH_APP" ]; then
 			echo "Checked out branch ($BRANCH_NAME) does not match the expected branch ($REPO_BRANCH_APP)."
 			echo "Because UT4MasterServer usually contains container volumes you need to manually handle"
 			echo "branch change and make sure volumes do not get overwritten or erased in the process."
