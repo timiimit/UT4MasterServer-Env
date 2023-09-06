@@ -3,7 +3,7 @@ Description=system upgrade
 
 [Service]
 Type=oneshot
-ExecStart=dnf -q -y upgrade
+ExecStart=dnf -y upgrade
 ExecStart=update-certbot
 ExecStart=update-docker-compose
 # ExecStart=systemctl reboot
