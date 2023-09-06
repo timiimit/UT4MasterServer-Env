@@ -41,22 +41,26 @@ elif [ "$1" == "update" ]; then
 		# minimal fetch
 		git remote update
 
-		# compare local commit id and remote commit id
-		COMMIT_UPSTREAM=$(git rev-parse @{u})
-		COMMIT_LOCAL=$(git rev-parse @)
+		# compare branch name and commit id
+		BRANCH_NAME="$(git branch --show-current)"
+
+		if [ "$BRANCH_NAME" != "$REPO_BRANCH_APP"]; then
+			echo "Checked out branch ($BRANCH_NAME) does not match the expected branch ($REPO_BRANCH_APP)."
+			echo "Because UT4MasterServer usually contains container volumes you need to manually handle"
+			echo "branch change and make sure volumes do not get overwritten or erased in the process."
+			exit 1
+		fi
+
+		COMMIT_UPSTREAM="$(git rev-parse @{u})"
+		COMMIT_LOCAL="$(git rev-parse @)"
 
 		if [ "$COMMIT_UPSTREAM" == "$COMMIT_LOCAL" ]; then
 			echo "Already up to date."
-			exit 1
+			exit
 		fi
 
 		# pull all changes
 		git pull
-
-		# switch to desired branch
-		if [ "$(git branch --show-current)" != "$REPO_BRANCH_ENV"]; then
-			git checkout -f "$REPO_BRANCH_ENV" 1>/dev/null
-		fi
 	else
 		# make sure that we are cloning into an empty directory
 		if [ -z "$(\ls -A)" ]; then
