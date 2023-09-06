@@ -1,7 +1,9 @@
 #!/bin/sh
 
-command_location="/usr/local/bin/ut4ms"
 systemd_dir="/etc/systemd/system"
+install_dir="/usr/local/bin"
+certbot_dir="/opt/certbot"
+command_location="$install_dir/ut4ms"
 
 if [ "$EUID" != "0" ]; then
 	echo "\`$SCRIPT_COMMAND self\` commands must only be run as root."
@@ -80,26 +82,28 @@ EOF
 			systemctl --now enable "$systemd_timer_filename"
 		done
 
-	elif [ "$2" == "--deps" ]; then
+	elif [ "$2" == "--deps-only" ]; then
 
-		install_dir="/usr/local/bin"
 
 		# install apache, docker, certbot deps
 		dnf -q -y install httpd mod_ssl docker python3 augeas-libs
 
 		# install update-certbot
-		certbot_dir="/opt/certbot"
 		python3 -m venv "$certbot_dir"
 		cat >"$install_dir/update-certbot" << EOF
 #!/bin/bash
-"$certbot_dir/bin/pip" install --upgrade pip
-"$certbot_dir/bin/pip" install --upgrade certbot certbot-apache
+source "$certbot_dir/bin/activate"
+pip install --upgrade pip
+pip install --upgrade certbot certbot-apache
 EOF
 		chmod 755 "$install_dir/update-certbot"
 
-		update-certbot
-
-		ln -s "$certbot_dir/bin/certbot" "$install_dir/certbot"
+				cat >"$install_dir/certbot" << EOF
+#!/bin/bash
+source "$certbot_dir/bin/activate"
+certbot "\$@"
+EOF
+		chmod 755 "$install_dir/certbot"
 
 		# install update-docker-compose
 
@@ -110,6 +114,8 @@ chmod 755 "$install_dir/docker-compose"
 EOF
 		chmod 755 "$install_dir/update-docker-compose"
 
+		# run installed updaters
+		update-certbot
 		update-docker-compose
 
 	else
