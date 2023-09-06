@@ -36,13 +36,13 @@ if [ "$1" == "update" ]; then
 		# discard any local changes in working directory
 		git reset --hard HEAD 1>/dev/null
 
-		# pull all changes
-		git pull
-
 		# switch to desired branch
 		if [ "$BRANCH_NAME" != "$REPO_BRANCH_ENV" ]; then
 			git checkout -f "$REPO_BRANCH_ENV" 1>/dev/null
 		fi
+
+		# pull all changes
+		git pull
 
 		# unstash previously stashed config.cfg
 		git stash pop 1>/dev/null
