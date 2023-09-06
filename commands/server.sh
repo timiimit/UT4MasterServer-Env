@@ -28,7 +28,7 @@ elif [ "$1" == "reload" ]; then
 	docker-compose -f docker-compose.yml build --no-cache --memory 5242880
 
 	# start with built containers
-	docker-compose -f docker-compose.yml up --no--build --force-recreate --remove-orphans -d
+	docker-compose -f docker-compose.yml up --no-build --force-recreate --remove-orphans -d
 
 	# prune all unneeded stuff
 	#docker system prune -af
