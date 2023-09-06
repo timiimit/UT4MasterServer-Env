@@ -1,7 +1,6 @@
 #!/bin/sh
 
 ensure_mongo_only() {
-	systemctl stop ut4ms
 	docker-compose -f docker-compose.yml up -d mongo 1>/dev/null
 	return 0
 }
@@ -25,11 +24,9 @@ if [ "$1" == "dump" ]; then
 
 		remove_tmp_file
 
-		systemctl start ut4ms
-
 		echo ""
 		echo "db has been dumped to \`""$2""\`."
-		echo "Server is continuting normal operation."
+		echo "Mongo container is the only container that is running."
 	else
 		echo "Description:"
 		echo "Make a reliable database dump into specified file."
@@ -57,8 +54,7 @@ elif [ "$1" == "restore" ]; then
 
 		echo ""
 		echo "db has been restored from \`""$2""\`."
-		echo "Server is currently OFF so you can ensure db is in an expected state."
-		echo "When you are ready run \`systemctl start ut4ms\` to start up server."
+		echo "Mongo container is the only container that is running."
 	else
 		echo "Description:"
 		echo "Restore a reliable database dump from specified file."
