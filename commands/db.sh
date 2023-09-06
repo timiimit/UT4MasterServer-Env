@@ -6,7 +6,7 @@ ensure_mongo_only() {
 }
 
 remove_tmp_file() {
-	docker exec -it mongo rm /data/dump.gz
+	docker exec -i mongo rm /data/dump.gz
 	return 0
 }
 
@@ -19,7 +19,7 @@ if [ "$1" == "dump" ]; then
 		ensure_mongo_only
 
 		# dump database
-		docker exec -it mongo mongodump --username=devroot --password=devroot --host=localhost --gzip --archive=/data/dump.gz
+		docker exec -i mongo mongodump --username=devroot --password=devroot --host=localhost --gzip --archive=/data/dump.gz
 		docker cp mongo:/data/dump.gz "$2"
 
 		remove_tmp_file
