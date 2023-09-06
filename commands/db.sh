@@ -11,7 +11,7 @@ remove_tmp_file() {
 }
 
 if [ "$1" == "dump" ]; then
-	if [ ! -f "$2" ]; then
+	if [ -n "$2" ]; then
 		# make output dir if it doesn't exist
 		dir=$(dirname "$2")
 		mkdir -p $dir
