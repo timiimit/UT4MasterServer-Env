@@ -78,12 +78,48 @@ EOF
 
 		# ensure that systemd sees the changes
 		systemctl daemon-reload
+	elif [ "$2" == "--deps" ]; then
+
+		install_dir="/usr/local/bin"
+
+		# install apache, docker, certbot deps
+		dnf -q -y install httpd mod_ssl docker python3 augeas-libs
+
+		# install update-certbot
+		certbot_dir="/opt/certbot"
+		python3 -m venv "$certbot_dir"
+		cat >"$install_dir/update-certbot" << EOF
+#!/bin/bash
+"$certbot_dir/bin/pip" install --upgrade pip
+"$certbot_dir/bin/pip" install --upgrade certbot certbot-apache
+EOF
+		chmod 755 "$install_dir/update-certbot"
+
+		update-certbot
+
+		ln -s "$certbot_dir/bin/certbot" "$install_dir/certbot"
+
+		# install update-docker-compose
+
+		cat >"$install_dir/update-docker-compose" << EOF
+#!/bin/bash
+curl -SL -o "$install_dir/docker-compose" https://github.com/docker/compose/releases/latest/download/docker-compose-linux-$(uname -m)
+chmod 755 "$install_dir/docker-compose"
+EOF
+		chmod 755 "$install_dir/update-docker-compose"
+
+		update-docker-compose
+
 	else
 		echo "Description:"
 		echo "Install global \`ut4ms\` command and services."
 		echo ""
 		echo "Syntax:"
-		echo "	$SCRIPT_COMMAND self update"
+		echo "	$SCRIPT_COMMAND self install [--deps]"
+		echo ""
+		echo "Options:"
+		echo "	--deps	Install only dependency packages that are"
+		echo "          required by this command."
 	fi
 elif [ "$1" == "uninstall" ]; then
 	if [ -z "$2" ]; then
