@@ -2,7 +2,13 @@
 Helpful information and scripts for managing live UT4MasterServer.
 
 ## Installation
-When setting up the environment for running UT4MasterServer for the first time. You should use UT4MasterServer-Env-Setup which will install this for you.
+When setting up the environment for running UT4MasterServer for the first time you should do the following:
+```
+cd /opt/ut4ms # or any other directory
+git clone https://github.com/timiimit/UT4MasterServer-Env.git .
+./ut4ms self install --deps-only
+./ut4ms self install
+```
 
 ## How to run operations
 - Nearly all actions that can be performed require root privileges
