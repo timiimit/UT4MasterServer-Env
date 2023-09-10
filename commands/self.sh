@@ -161,7 +161,7 @@ elif [ "$1" == "config" ]; then
 		"$SCRIPT_COMMAND" apache config
 		systemctl reload httpd
 
-		"$SCRIPT_COMMAND" server config
+		"$SCRIPT_COMMAND" server update
 		systemctl reload ut4ms
 
 		"$SCRIPT_COMMAND" cloudflare dns set $("$SCRIPT_COMMAND" ip)
