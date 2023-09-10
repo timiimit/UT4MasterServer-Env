@@ -22,7 +22,7 @@ if [ "$1" == "obtain" ]; then
 	fi
 
 	# obtain certificates by letting certbot use apache's document root
-	echo certbot certonly $opt_dryrun --email "$CERTIFICATE_REGISTRATION_EMAIL" --agree-tos --non-interactive -d "$DOMAIN_NAME_WEBSITE" -d "$DOMAIN_NAME_API" --webroot --webroot-path "/var/www/html"
+	certbot certonly $opt_dryrun --email "$CERTIFICATE_REGISTRATION_EMAIL" --agree-tos --non-interactive -d "$DOMAIN_NAME_WEBSITE" -d "$DOMAIN_NAME_API" --webroot --webroot-path "/var/www/html"
 elif [ "$1" == "renew" ]; then
 	if [ -n "$2" ]; then
 		if [ "$2" == "--dry-run" ]; then
@@ -39,7 +39,7 @@ elif [ "$1" == "renew" ]; then
 			exit
 		fi
 	fi
-	echo certbot renew $opt_dryrun
+	certbot renew $opt_dryrun
 else
 	echo "Description:"
 	echo "Work with certificate authority to handle/manipulate ssl certificates"
